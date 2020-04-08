@@ -69,22 +69,24 @@ active = True
 
 while active == True:
     print(divider,
-          f"You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
+          f"   You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
     cmd = input("Which way shall we venture? ")
     if cmd in options:
-        location = getattr(player.curr_room, str(f"{cmd}_to"))
         if cmd == "h":
-            print("\n\nHELP \nCommands: \nn => Go North \ne => Go East \ns => Go South\n w => Go West \nh => Help \nq => Quit\n\n", divider)
+            print("\n\nHELP \nCommands: \nn => Go North \ne => Go East \ns => Go South\nw => Go West \nh => Help \nq => Quit\n\n", divider)
             input("Press Enter to continue...")
         elif cmd == "q":
             active = False
         else:
+            location = getattr(player.curr_room, str(f"{cmd}_to"))
             if location == None:
                 print("You cannot turn that way. Please try again.")
-        player.curr_room = location
+                input("Press Enter to continue...")
+            else:
+                player.curr_room = location
     else:
         print("\n\nThat isn't a valid command. Enter a command to continue. \nCommands: \nn => Go North \ne => Go East \ns => Go South \nw => Go West \nh => Help \nq => Quit\n\n", divider)
         input("Press Enter to continue...")
 
 if active == False:
-    print("Thanks for playing!\n\n", divider, divider, divider)
+    print(divider, "Thanks for playing!\n\n", divider)
