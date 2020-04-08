@@ -68,9 +68,10 @@ input("Press Enter to continue...")
 active = True
 
 while active == True:
-    print(
-        f"You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
+    print(divider,
+          f"You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
     cmd = input("Which way shall we venture? ")
+    location = getattr(player.curr_room, str(f"{cmd}_to"))
     if cmd not in options:
         print("That isn't a valid command. Enter a command to continue. \nCommands: \nn => Go North \ne => Go East \ns => Go South \nw => Go West \nh => Help \nq => Quit\n\n", divider)
     elif cmd == "h":
@@ -78,9 +79,9 @@ while active == True:
     elif cmd == "q":
         active = False
     else:
-        if room[room.f"{cmd}_to"] == None:
-            print("You cannot turn this way. Please try again.")
-    player.curr_room = room[room.f"{cmd}_to"]
+        if location == None:
+            print("You cannot turn that way. Please try again.")
+    player.curr_room = location
 
-if active == "False":
+if active == False:
     print("Thanks for playing!\n\n", divider, divider, divider)
