@@ -3,9 +3,9 @@
 
 
 class Player:
-    def __init__(self, name, room):
+    def __init__(self, name, curr_room):
         self.name = name
-        self.room = room
+        self.curr_room = curr_room
 
     def __str__(self):
-        return (f'{self.name} is in the {self.room}')
+        return (f'Welcome {self.name}! You have arrived {self.curr_room.name}. Time for your adventure to begin...')

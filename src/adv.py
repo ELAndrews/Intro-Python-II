@@ -22,7 +22,6 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
-
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -40,6 +39,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+name = input("Name your character: ")
+
+player = Player(name, room['outside'])
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -51,14 +54,33 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
+options = ["n", "e", "s", "w", "q", "h"]
+
 directions = ["n", "e", "s", "w"]
 
-while True:
-    # * Prints the current room name, current description
-    print()
+divider = "\n-----------------------------------------------------\n\n"
 
-    # If the user enters a cardinal direction, attempt to move to the room there.
-    # Print an error message if the movement isn't allowed.
-    cmd = input("Which way shall we venture?")
 
-    if cmd == "n":
+print(divider, player, divider)
+
+input("Press Enter to continue...")
+
+active = True
+
+while active == True:
+    print(
+        f"You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
+    cmd = input("Which way shall we venture? ")
+    if cmd not in options:
+        print("That isn't a valid command. Enter a command to continue. \nCommands: \nn => Go North \ne => Go East \ns => Go South \nw => Go West \nh => Help \nq => Quit\n\n", divider)
+    elif cmd == "h":
+        print("HELP \nCommands: \nn => Go North \ne => Go East \ns => Go South\n w => Go West \nh => Help \nq => Quit\n\n", divider)
+    elif cmd == "q":
+        active = False
+    else:
+        if room[room.f"{cmd}_to"] == None:
+            print("You cannot turn this way. Please try again.")
+    player.curr_room = room[room.f"{cmd}_to"]
+
+if active == "False":
+    print("Thanks for playing!\n\n", divider, divider, divider)
