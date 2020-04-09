@@ -1,37 +1,7 @@
 from room import Room
+from game_manager import room
 from player import Player
-
-# Declare all the rooms
-
-room = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
-
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
-
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
-
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
-
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
-}
-
-# Link rooms together
-
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+from item import Tool, Weapon, Coins
 
 #
 # Main
@@ -54,7 +24,7 @@ player = Player(name, room['outside'])
 #
 # If the user enters "q", quit the game.
 
-options = ["n", "e", "s", "w", "q", "h"]
+options = ["n", "e", "s", "w", "q", "h", "l"]
 
 directions = ["n", "e", "s", "w"]
 
@@ -70,13 +40,22 @@ active = True
 while active == True:
     print(divider,
           f"   You are located at the {player.curr_room.name}. \n{player.curr_room.att}")
-    cmd = input("Which way shall we venture? ")
+    cmd = input("What shall we do? ")
     if cmd in options:
         if cmd == "h":
-            print("\n\nHELP \nCommands: \nn => Go North \ne => Go East \ns => Go South\nw => Go West \nh => Help \nq => Quit\n\n", divider)
+            print("\n\nHELP \nCommands: \nn => Go North \ne => Go East \ns => Go South\nw => Go West \nh => Help \nl => Look around \nq => Quit\n\n", divider)
             input("Press Enter to continue...")
         elif cmd == "q":
             active = False
+        elif cmd == "l":
+            items = getattr(player.curr_room, "items")
+            if len(items) == 0:
+                print(
+                    "You scan the area... You find nothing you can useful for your quest")
+                input("Press Enter to continue...")
+            else:
+                print(f"You scan the area... You find: {items}")
+                input("Press Enter to continue...")
         else:
             location = getattr(player.curr_room, str(f"{cmd}_to"))
             if location == None:
