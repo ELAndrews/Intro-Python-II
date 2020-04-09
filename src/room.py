@@ -13,4 +13,12 @@ class Room:
         self.e_to = None
         self.w_to = None
 
-        self.items = []
+        self.items = list()
+        self.locked = False
+        self.restricted = list()
+
+
+class Riddle:
+    def __init__(self, question, answer):
+        self.question = question
+        self.answer = answer
